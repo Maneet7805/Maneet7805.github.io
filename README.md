@@ -23,6 +23,7 @@ npm run build    # static site in ./out
 Everything on the page comes from **`src/lib/data.ts`**. Components only read from it.
 
 - The résumé is the source of truth; nothing is invented. Where the CV hasn't caught up yet (the Cloudify Asia internship, Spark CRM, AWS badges), content comes from LinkedIn.
+- The intro was made from a 3D character image (Step 1) animated in Google Flow (Step 2), then run through `scripts/build-hero-assets.py --xfade 0.4` (speech starts at 0.45 s, so a 0.5 s fade would clip "Hi").
 - An empty array (e.g. `CERTIFICATIONS = []`) removes that section *and* its nav link.
 - **Résumé download:** put an updated PDF at `public/resume.pdf` and set `PROFILE.resume = "/resume.pdf"`. The "Résumé ↓" buttons then appear in the hero, About and Contact. (The current CV lists referees' emails and a phone number, so it isn't published as-is.)
 
@@ -35,7 +36,7 @@ python3 scripts/build-hero-assets.py path/to/intro.mp4
 # optional: --crop W:H:X:Y   (skip auto-detection)  --photo me.jpg  (portrait for the ID card)
 ```
 
-The script crops tightly around the person (head to toe, centred), scales to 768×960, whitens the backdrop, and makes a seamless loop by cross-fading the last 0.5 s into the first 0.5 s, for both picture (ffmpeg `xfade`) and audio (sample-accurate, numpy). It writes:
+The script crops tightly around the person (head to toe, centred), scales to 768×960, whitens the backdrop (the `colorlevels` input-max is measured from the clip so a grey or vignetted backdrop still becomes pure white), and makes a seamless loop by cross-fading the last 0.5 s into the first 0.5 s, for both picture (ffmpeg `xfade`) and audio (sample-accurate, numpy). It writes:
 
 | File | What |
 |---|---|

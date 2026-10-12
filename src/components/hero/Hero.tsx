@@ -146,7 +146,7 @@ export default function Hero() {
 }
 
 const CSS = `
-.hero { position: relative; min-height: max(100svh, 680px); overflow: hidden; isolation: isolate; }
+.hero { position: relative; min-height: max(100svh, 680px); overflow: hidden; isolation: isolate; background: var(--paper); }
 .hero-ghost { position: absolute; left: 50%; top: 44%; transform: translate(-50%, -50%); margin: 0; z-index: -1;
   font-weight: 800; font-size: clamp(110px, 25vw, 420px); letter-spacing: -.06em; line-height: .8; white-space: nowrap;
   color: transparent; -webkit-text-stroke: 1.5px rgba(13,13,13,.09); user-select: none;
@@ -156,7 +156,7 @@ const CSS = `
 .hero-figure { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
   height: min(96svh, 1040px); aspect-ratio: 768 / 960; z-index: 0; mix-blend-mode: multiply; animation: figIn 1.4s var(--ease) .1s both; }
 @keyframes figIn { from { opacity: 0; transform: translate(-50%, 24px); } to { opacity: 1; transform: translate(-50%, 0); } }
-.hero-video { width: 100%; height: 100%; object-fit: cover; }
+.hero-video { width: 100%; height: 100%; object-fit: cover; clip-path: inset(4px 2px 0 2px); }
 .hero-placeholder { position: absolute; inset: 12% 14% 0; border-radius: 28px 28px 0 0; border: 1.5px dashed rgba(13,13,13,.16); border-bottom: 0;
   display: grid; place-content: center; text-align: center; gap: 8px; color: var(--faint); font-size: 12px; letter-spacing: .1em; }
 .hero-placeholder-sub { letter-spacing: 0; font-size: 11px; }

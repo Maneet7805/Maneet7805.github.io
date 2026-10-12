@@ -108,6 +108,18 @@ def crop_for(box, W, H) -> tuple[int, int, int, int]:
     return cw, ch, x, y
 
 
+def backdrop_level(frames: list[Image.Image], crop: tuple[int, int, int, int]) -> float:
+    """colorlevels input-max so the backdrop inside the crop becomes pure white (never above 0.98)."""
+    vals = []
+    for im in frames:
+        a = np.asarray(im.crop(crop).convert("L"), dtype=np.float32)
+        h, w = a.shape
+        edge = np.concatenate([a[: h // 10].ravel(), a[:, : w // 10].ravel(), a[:, -w // 10:].ravel()])
+        vals.append(np.percentile(edge, 5))
+    level = float(np.median(vals)) / 255 - 0.01
+    return round(max(0.85, min(0.98, level)), 3)
+
+
 def sharpest(frames: list[Image.Image]) -> Image.Image:
     def score(im):
         g = np.asarray(im.convert("L"), dtype=np.float32)
@@ -177,9 +189,13 @@ def main():
         print(f"source {info['w']}x{info['h']} @ {info['fps']:.2f}fps, using {L:.2f}s")
         print(f"crop={cw}:{ch}:{x}:{y}  (pass --crop {cw}:{ch}:{x}:{y} to reuse)")
 
+        # Whiten: the spec's 0.98 assumes a near-white backdrop. If the backdrop is greyer (vignette),
+        # lower the input max just enough that its darkest edge maps to pure white.
+        imax = backdrop_level(frames, (x, y, x + cw, y + ch))
+        print(f"colorlevels imax={imax}")
         vf = (f"crop={cw}:{ch}:{x}:{y},scale={OUT_W}:-2:flags=lanczos,"
               f"pad={OUT_W}:{OUT_H}:(ow-iw)/2:(oh-ih)/2:color=white,"
-              f"colorlevels=rimax=0.98:gimax=0.98:bimax=0.98,setsar=1,format=yuv420p")
+              f"colorlevels=rimax={imax}:gimax={imax}:bimax={imax},setsar=1,format=yuv420p")
         fps = round(info["fps"], 3)
 
         # 1) cropped + whitened, constant frame rate, first L seconds

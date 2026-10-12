@@ -77,12 +77,12 @@ export const PROFILE = {
   resume: null as string | null,
   hero: {
     // Flip to true after running scripts/build-hero-assets.py (creates public/hero/*).
-    videoReady: false,
+    videoReady: true,
     mp4: "/hero/hero.mp4",
     webm: "/hero/hero.webm",
     poster: "/hero/poster.jpg",
   },
-  portrait: null as string | null, // "/portrait-bust.webp" after the pipeline runs
+  portrait: "/portrait-bust.webp" as string | null, // made by scripts/build-hero-assets.py from the intro video
   idCard: {
     idNo: "MANEET7805",
     dept: "Computer Science",
