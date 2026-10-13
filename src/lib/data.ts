@@ -20,7 +20,7 @@ export type Skill = {
   logo: string; // key into TechLogo's BRAND or CONCEPT map
 };
 
-export type Mock = "crm" | "game" | "lms" | "terminal" | "medical" | "chart" | "db";
+export type Mock = "crm" | "prompt" | "game" | "lms" | "terminal" | "medical" | "chart" | "db";
 
 export type Project = {
   slug: string;
@@ -91,7 +91,7 @@ export const PROFILE = {
       "Computer Science student, APU × De Montfort",
       "Year 1 CGPA 3.67",
       "Software Development Intern, Cloudify Asia",
-      "Built Spark CRM, LearnSphere and The Last Christmas Run",
+      "Built Spark CRM, PromptForge and The Last Christmas Run",
       "Red Hat System Administration I & II · AWS Academy Graduate ×2",
     ],
   },
@@ -181,6 +181,22 @@ export const PROJECTS: Project[] = [
     ],
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "PostgreSQL", "Redis", "BullMQ", "REST APIs", "Docker", "Nginx", "Cloudflare", "CI/CD", "LLMs", "AI Agents", "RBAC & Auth"],
     mock: "crm",
+  },
+  {
+    slug: "promptforge",
+    title: "PromptForge",
+    kicker: "Windows app · C# / .NET · open source",
+    description:
+      "A Windows tray app that turns the rough prompt you're typing into a clear one, in whatever app you're in. Press Ctrl+Alt+P, review the rewrite and a word-level diff, then replace. It asks questions instead of inventing details, restores pasted code byte-for-byte and keeps API keys encrypted with Windows DPAPI.",
+    features: [
+      "Global hotkey, works in any text box",
+      "Review window with word-level diff",
+      "Groq, Gemini, Ollama & OpenAI-compatible",
+      "Voice dictation via Whisper",
+    ],
+    tech: ["C#", "LLMs", "CI/CD", "OOP"],
+    link: "https://github.com/Maneet7805/PromptForge",
+    mock: "prompt",
   },
   {
     slug: "last-christmas-run",

@@ -35,6 +35,24 @@ function Crm() {
   );
 }
 
+function Prompt() {
+  return (
+    <div className="mk-pf">
+      <div className="mk-pf-draft mono"><span className="mk-pf-key">Ctrl + Alt + P</span>make it better, fix the bug, explain why</div>
+      <div className="mk-pf-win">
+        <div className="mk-pf-tabs mono">{["Improved", "Diff", "Original"].map((t, i) => <span key={t} data-on={i === 0 || undefined}>{t}</span>)}</div>
+        <div className="mk-pf-body">
+          {[["74%", 1], ["88%", 0.5], ["61%", 0.5], ["80%", 0.5]].map(([w, o], i) => (
+            <span key={i} className="mk-pf-line" style={{ ["--k" as string]: i }}><Bar w={w as string} o={o as number} /></span>
+          ))}
+          <div className="mk-pf-q mono" style={{ ["--k" as string]: 4 }}>? Which file is failing</div>
+        </div>
+        <div className="mk-btns"><span>Keep original</span><span data-on>Replace · Ctrl ↵</span></div>
+      </div>
+    </div>
+  );
+}
+
 function Game() {
   return (
     <div className="mk-game">
@@ -138,7 +156,7 @@ function Db() {
   );
 }
 
-const MAP: Record<Mock, () => React.ReactElement> = { crm: Crm, game: Game, lms: Lms, terminal: Terminal, medical: Medical, chart: Chart, db: Db };
+const MAP: Record<Mock, () => React.ReactElement> = { crm: Crm, prompt: Prompt, game: Game, lms: Lms, terminal: Terminal, medical: Medical, chart: Chart, db: Db };
 
 export default function MockUI({ kind }: { kind: Mock }) {
   const C = MAP[kind];
@@ -229,5 +247,14 @@ export const MOCK_CSS = `
 .mk-links { position: absolute; inset: 30% 0 auto; height: 40%; width: 100%; pointer-events: none; }
 .mk-links path { fill: none; stroke: var(--ink); stroke-width: .5; stroke-dasharray: 2 1.5; }
 .mk-sp { position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; font-size: 9.5px; color: var(--mute); }
+.mk-pf { height: 100%; display: flex; flex-direction: column; gap: 10px; }
+.mk-pf-draft { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--mute); background: #fff; border-radius: 99px; padding: 7px 10px; box-shadow: inset 0 0 0 1px var(--line); white-space: nowrap; overflow: hidden; }
+.mk-pf-key { flex: none; font-size: 9px; padding: 2px 7px; border-radius: 99px; background: var(--ink); color: #fff; }
+.mk-pf-win { flex: 1; background: #fff; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); padding: 10px; display: flex; flex-direction: column; gap: 9px; }
+.mk-pf-tabs { display: flex; gap: 4px; font-size: 9.5px; } .mk-pf-tabs span { padding: 4px 9px; border-radius: 7px; color: var(--mute); box-shadow: inset 0 0 0 1px var(--line); }
+.mk-pf-tabs span[data-on] { background: var(--ink); color: #fff; box-shadow: none; }
+.mk-pf-body { flex: 1; display: grid; align-content: start; gap: 7px; }
+.mk-pf-line, .mk-pf-q { animation: mkIn .5s var(--ease) both; animation-delay: calc(var(--k) * 110ms + .2s); }
+.mk-pf-q { justify-self: start; font-size: 9.5px; padding: 3px 8px; border-radius: 99px; background: var(--paper); color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line); }
 @media (prefers-reduced-motion: reduce) { .mock * { animation: none !important; opacity: 1 !important; } }
 `;
